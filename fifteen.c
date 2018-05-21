@@ -11,7 +11,7 @@
  * Note that usleep is obsolete, but it offers more granularity than
  * sleep and is simpler to use than nanosleep; `man usleep` for more.
  */
- 
+
 #define _XOPEN_SOURCE 500
 
 #include <stdbool.h>
@@ -101,8 +101,9 @@ int main(int argc, char* argv[])
 
         // prompt for move
         printf("Tile to move: ");
-        int tile = get_int();
-        
+        int temp = 0;
+        int tile = scanf("%i", temp);
+
         // quit if user inputs 0 (for testing)
         if (tile == 0)
         {
@@ -123,7 +124,7 @@ int main(int argc, char* argv[])
         // sleep thread for animation's sake
         usleep(500000);
     }
-    
+
     // close log
     fclose(file);
 
@@ -152,11 +153,11 @@ void greet(void)
 
 /**
  * Initializes the game's board with tiles numbered 1 through d*d - 1
- * (i.e., fills 2D array with values but does not actually print them).  
+ * (i.e., fills 2D array with values but does not actually print them).
  */
 void init(void)
 {
-    // TODO initialize the board 
+    // TODO initialize the board
     int sq = d*d;
     int temp;
     for (int i = 0; i<d; i++)
@@ -180,7 +181,7 @@ void init(void)
  */
 void draw(void)
 {
-    // TODO print the entire thing except when the last 
+    // TODO print the entire thing except when the last
     for (int i=0; i<d; i++)
     {
         for (int j=0; j<d; j++)
@@ -189,7 +190,7 @@ void draw(void)
             {
                 printf("  _");
             }
-            else 
+            else
             {
                 printf(" %2i", board[i][j]);
             }
@@ -200,12 +201,12 @@ void draw(void)
 
 /**
  * If tile borders empty space, moves tile and returns true, else
- * returns false. 
+ * returns false.
  */
 bool move(int tile)
 {
     int a;
-    int b;                
+    int b;
     int c;
     int e;
 
@@ -225,16 +226,16 @@ bool move(int tile)
             }
         }
     }
-    
+
     int temp;
-    
+
     if ((c==a+1 || c==a-1 || c==a) && (e==b+1 || e==b-1 || e==b))
     {
         if ((c==(a-1) && e==(b-1)) || (c==(a-1) && e==(b+1)) || (c==(a+1) && e==(b-1)) || (c==(a+1) && e==(b+1)))
         {
             return false;
         }
-        
+
         else
         {
         temp = board[a][b];
@@ -242,23 +243,23 @@ bool move(int tile)
         board[c][e] = temp;
         return true;
         }
-        
+
     }
-    
+
     else
         return false;
-    
-    
+
+
 }
 
 /**
- * Returns true if game is won (i.e., board is in winning configuration), 
+ * Returns true if game is won (i.e., board is in winning configuration),
  * else false.
  */
 bool won(void)
 {
     int k = 1;
-    
+
     for (int i=0; i<d; i++)
     {
         for (int j=0; j<d; j++)
@@ -274,11 +275,11 @@ bool won(void)
             }
         }
     }
-    
+
     if (k==(d-1))
     {
         return true;
     }
-    
+
     return false;
 }
